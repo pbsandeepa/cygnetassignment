@@ -2,13 +2,33 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+import Employee from '../components/Employee.vue'
+import Department from '../components/Department.vue'
+import Profile from '../components/Profile.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    redirect:'/Employee'
+  },
+  {
+    path: '/Employee',
+    name: 'Employee',
+    component: Employee
+  },
+  {
+    path: '/Department',
+    name: 'Department',
+    component: Department
+  },
+  {
+    path: '/Profile',
+    name: 'Profile',
+    component: Profile
   },
   {
     path: '/about',
