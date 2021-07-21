@@ -22,7 +22,7 @@
             >Department
             </b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item to="/Profile">Sandeepa P B</b-nav-item>
+          <b-nav-item>Sandeepa P B</b-nav-item>
         </b-navbar-nav>
       <!-- </b-collapse> -->
     </b-navbar>
@@ -49,7 +49,7 @@
         <b-button class="mt-3" variant="outline-primary" block @click="addEmployee">Add</b-button>
       </div>
     </b-modal>
-    <b-modal ref="addDepartmentModal" hide-footer title="Add Employee">
+    <b-modal ref="addDepartmentModal" hide-footer title="Add Department">
       <div class="">
         <b-form-input class="mb-3" size="sm" v-model="departmentName" placeholder="Department Name"></b-form-input>
         <b-form-textarea
@@ -114,10 +114,18 @@ export default {
       
     },
     addEmployee(){
-      this.$store.dispatch("addEmployee", {this:this})
+      if(this.employeeName.trim() != "" && this.department){
+        this.$store.dispatch("addEmployee", {this:this})
+      }else{
+        alert('Employee Name and Department Required!')
+      }
     },
     addDepartment(){
-      this.$store.dispatch("addDepartment", {this:this})
+      if(this.departmentName.trim() != ""){
+        this.$store.dispatch("addDepartment", {this:this})
+      }else{
+        alert('Department Name Required!')
+      }
     }
   }
 }

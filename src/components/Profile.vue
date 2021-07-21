@@ -3,7 +3,7 @@
     <div class="col-lg-3 col-md-3 col-sm-1 col-xs-1"></div>
     <div class="col-lg-6 col-md-6 col-sm-10 col-xs-10" align="center">
       <b-card
-        title="Sandeepa P B"
+        :title="employe.name"
         img-src="https://picsum.photos/600/300/?image=25"
         img-alt="Image"
         img-top
@@ -13,16 +13,16 @@
        
       >
         <b-card-text  align="left">
-          <b>Department:</b> IT
+          <b>Email:</b> {{employe.email}}
         </b-card-text>
         <b-card-text  align="left">
-          <b>Employee ID:</b> 123445
+          <b>Phone:</b> {{employe.phone}}
         </b-card-text>
         <b-card-text  align="left">
-          <b>Phone:</b> 9632826687
+          <b>Department:</b> {{department(employe.department).name}}
         </b-card-text>
         <b-card-text  align="left">
-          <b>Email:</b> sandeepapb@gmail.com
+          <b>Address:</b> {{employe.address}}
         </b-card-text>
 
         
@@ -32,7 +32,34 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
+  data(){
+    return{
+      
+    }
+  },
+  computed:{
+    ...mapState({
+      employees:"employees",
+      departments:"departments"
+    }),
+    employe(){
+      const that = this
+      return that.employees.find((obj)=>{
+        return obj.id == that.$route.query.eid
+      })
+    }
+    
+  },
+  methods:{
+    department(id){
+      const that = this
+      return that.departments.find((obj)=>{
+        return obj.id == id
+      })
+    }
+  }
   
 }
 </script>

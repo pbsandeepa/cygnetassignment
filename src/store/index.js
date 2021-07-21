@@ -49,7 +49,6 @@ export default new Vuex.Store({
       
       state.employees = state.employees.map(obj=>{
         if(obj.id == data.employee.id){
-          
           obj.department = data.employee.department
         }
         return obj
