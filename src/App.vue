@@ -9,8 +9,18 @@
             <template #button-content>
               <b>Add</b>
             </template>
-            <b-dropdown-item href="#">Employee</b-dropdown-item>
-            <b-dropdown-item href="#">Department</b-dropdown-item>
+            <b-dropdown-item 
+              href="#" 
+              v-if="$route.name == 'Employee'"
+              @click="showAddEmployeeModal"
+            >Employee
+            </b-dropdown-item>
+            <b-dropdown-item 
+              href="#" 
+              v-if="$route.name == 'Department'"
+              @click="showAddDepartmentModal"
+            >Department
+            </b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item to="/Profile">Sandeepa P B</b-nav-item>
         </b-navbar-nav>
@@ -21,8 +31,97 @@
       <router-link to="/Department">Department</router-link>
     </div>
     <router-view/>
+
+    <b-modal ref="addEmployeeModal" hide-footer title="Add Employee">
+      <div class="">
+        <b-form-input class="mb-3" size="sm" v-model="employeeName" placeholder="Employee Name"></b-form-input>
+        <b-form-input class="mb-3" size="sm" v-model="email" placeholder="Email"></b-form-input>
+        <b-form-input class="mb-3" size="sm" v-model="phone" placeholder="Phone"></b-form-input>
+        <b-form-select class="mb-3 form-control form-control-sm" size="sm" v-model="department" :options="departmentsOptions" placeholder="Department"></b-form-select>
+        <b-form-textarea
+          v-model="address"
+          placeholder="Address"
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+      </div>
+      <div align="right">
+        <b-button class="mt-3" variant="outline-primary" block @click="addEmployee">Add</b-button>
+      </div>
+    </b-modal>
+    <b-modal ref="addDepartmentModal" hide-footer title="Add Employee">
+      <div class="">
+        <b-form-input class="mb-3" size="sm" v-model="departmentName" placeholder="Department Name"></b-form-input>
+        <b-form-textarea
+          v-model="departmentDescription"
+          placeholder="Description"
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+      </div>
+      <div align="right">
+        <b-button class="mt-3" variant="outline-primary" block @click="addDepartment">Add</b-button>
+      </div>
+    </b-modal>
+
   </div>
 </template>
+<script>
+import { mapState } from "vuex";
+export default {
+  computed:{
+    ...mapState({
+      departments:"departments"
+    }),
+    departmentsOptions(){
+      var departments = this.departments.map((obj)=>{
+        return{
+          text:obj.name,
+          value:obj.id
+        }
+      })
+      departments.unshift({
+        value:null,
+        text:'Select Department'
+      })
+      return departments
+    }
+  },
+  data(){
+    return{
+      employeeName:"",
+      email:"",
+      phone:"",
+      department:null,
+      address:"",
+      departmentName:"",
+      departmentDescription:""
+    }
+  },
+  methods:{
+    showAddEmployeeModal(){
+      this.employeeName = ""
+      this.email = ""
+      this.phone = ""
+      this.department = null
+      this.address = ""
+      this.$refs.addEmployeeModal.show()
+    },
+    showAddDepartmentModal(){
+      this.departmentName = ""
+      this.departmentDescription = ""
+      this.$refs.addDepartmentModal.show()
+      
+    },
+    addEmployee(){
+      this.$store.dispatch("addEmployee", {this:this})
+    },
+    addDepartment(){
+      this.$store.dispatch("addDepartment", {this:this})
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

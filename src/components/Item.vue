@@ -4,9 +4,16 @@
     <b-collapse :id="string(item.id)" class="mt-2">
       <b-card>
         <p class="card-text">Name: {{item.name}}</p>
-        <p class="card-text" v-if="item.department">
-          Department: <b-form-select v-model="item.department.id" :options="departmentsOptions"></b-form-select>
-        </p>
+        <div class="card-text row" v-if="item.department">
+          <div class="col-4"> Department: </div>
+          <div class="col-8">
+            <b-form-select class="form-control form-control-sm" v-model="item.department" :options="departmentsOptions" @input="updateDepartment(item)"></b-form-select>
+          </div>
+        </div>
+        <div class="card-text row" v-if="item.description">
+          <div class="col-4"> Description: </div>
+          <div class="col-8">{{item.description}}</div>
+        </div>
       </b-card>
     </b-collapse>
   </b-card>
@@ -37,11 +44,9 @@ export default {
     string(val){
       return val.toString()
     },
-    selectedDepartment1(val){
-      return {
-        text:val.name,
-        value:val.id
-      }
+    updateDepartment(val){
+      console.log("VAL",val)
+      this.$store.dispatch("updateDepartment", {employee:val})
     }
   }
 }
